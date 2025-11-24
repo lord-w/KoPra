@@ -8,6 +8,7 @@
 
 #include "Fahren.h"
 
+Fahren fahren;
 Pixy2 mypixy;
 Servo myservo;
 
@@ -68,19 +69,19 @@ void loop() {
     char DATA = Serial1.read();
     switch(DATA) {
       case 'w':
-        stop();
-        moveGerade(true);
+        fahren.stop();
+        fahren.moveGerade(true);
         break;
       case 'a':
-        stop();
-        turn(true);
+        fahren.stop();
+        fahren.turn(true);
         break;
       case 'd':
-        stop();
-        turn(false);
+        fahren.stop();
+        fahren.turn(false);
         break;
       case 's':
-        stop();
+        fahren.stop();
         break;
     }
   }
@@ -90,10 +91,10 @@ void loop() {
     //Kies wird von Sensoren: Gyro, Pixycam erkannt
   if(kiesErkennung) {
     if(kiesErkannt) {
-      stop();
+      fahren.stop();
     }
     else {
-      moveGerade(true);
+      fahren.moveGerade(true);
     }
   }
 
@@ -127,59 +128,4 @@ void loop() {
   }
 }
 
-//true -> vorwärts || false -> rückwärts (sollte man aber nicht verwenden)
-void moveGerade(bool dir) {
-  if(dir) {
-    digitalWrite(30, LOW);
-    digitalWrite(31, HIGH);
-    digitalWrite(31, LOW);
-    digitalWrite(31, HIGH);
-  }
-  else {
-    digitalWrite(30, HIGH);
-    digitalWrite(31, LOW);
-    digitalWrite(31, HIGH);
-    digitalWrite(31, LOW);
-  }
-}
 
-//true -> links || false -> rechts
-//schaltet eines der Räder am um zu steuern
-void turn(bool dir) {
-  if(turn) {
-    digitalWrite(30, HIGH);
-    digitalWrite(31, LOW);
-    digitalWrite(32, LOW);
-    digitalWrite(33, LOW);
-  }
-  else {
-    digitalWrite(30, LOW);
-    digitalWrite(31, LOW);
-    digitalWrite(32, HIGH);
-    digitalWrite(33, LOW);
-  }
-}
-
-//true -> links || false -> rechts
-//dreht die Räder in entgegengesetzte Richtungen um auf der Stelle zu drehen
-void rotate(bool dir) {
-  if(dir) {
-    digitalWrite(30, LOW);
-    digitalWrite(31, HIGH);
-    digitalWrite(32, HIGH);
-    digitalWrite(33, LOW);
-  }
-  else {
-    digitalWrite(30, HIGH);
-    digitalWrite(31, LOW);
-    digitalWrite(32, LOW);
-    digitalWrite(33, HIGH);
-  }
-}
-
-void stop() {
-  digitalWrite(30, LOW);
-  digitalWrite(31, LOW);
-  digitalWrite(32, LOW);
-  digitalWrite(33, LOW);
-}

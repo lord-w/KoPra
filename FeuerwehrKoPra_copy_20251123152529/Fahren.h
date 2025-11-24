@@ -16,10 +16,14 @@
 class Fahren
 {
   public:
+    //Constructor
     Fahren();
+    //Methoden
     void moveGerade(bool dir);
     void turn(bool dir);
-    void rorate(bool dir);
+    void rotate(bool dir);
+    void stop();
+  private:
 };
 
 #endif
